@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace CreditFlow.Api.Controllers;
+namespace CreditScoreMockAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
