@@ -136,7 +136,7 @@ public class KafkaConsumer(IServiceScopeFactory scopeFactory, IKafkaProducer kaf
         using var scope = scopeFactory.CreateScope();
 
         var context = scope.ServiceProvider.GetRequiredService<CreditFlowDbContext>();
-        var creditAnalysisService = scope.ServiceProvider.GetRequiredService<CreditAnalysisService>();
+        var creditAnalysisService = scope.ServiceProvider.GetRequiredService<ICreditAnalysisService>();
 
         var creditRequest = await context.CreditRequests
             .Include(x => x.Customer)

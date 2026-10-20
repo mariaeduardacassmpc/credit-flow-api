@@ -21,7 +21,6 @@ public static class DependencyInjectionExtensions
         services.AddScoped<ICreditRequestService, CreditRequestService>();
         services.AddScoped<IDashboardService, DashboardService>();
         services.AddScoped<ICreditAnalysisService, CreditAnalysisService>();
-
         services.AddScoped<ITwoFactorAuthService, TwoFactorAuthService>();
         services.AddScoped<IPasswordResetService, PasswordResetService>();
         services.AddScoped<ITokenService, JwtTokenService>();
@@ -40,7 +39,6 @@ public static class DependencyInjectionExtensions
         services.AddSingleton<IKafkaProducer, KafkaProducer>();
 
         services.AddHttpClient<IEmailService, EmailService>();
-
         services.AddHttpClient<ICreditScoreProvider, CreditScoreProvider>(
             client =>
             {

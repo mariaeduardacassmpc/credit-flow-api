@@ -4,13 +4,15 @@ using Application.Dtos.Credit;
 using Application.Interfaces;
 using Application.Mappings;
 using Domain.Entities;
+using Domain.Events;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
 public class CreditRequestService(
     ICreditRequestRepository repository,
-    ILogger<CreditRequestService> logger
+    ILogger<CreditRequestService> logger,
+    IKafkaProducer kafkaProducer
 ) : ICreditRequestService
 {
     public async Task<CreditRequestResponseDto> CreateCreditRequest(CreateCreditRequestDto dto, CancellationToken cancellationToken)
@@ -40,6 +42,14 @@ public class CreditRequestService(
         };
 
         var createdCreditRequest = await repository.CreateAsync(creditRequest, cancellationToken);
+
+        await kafkaProducer.PublishAsync(
+           "credit-request-created",
+           new CreditRequestCreatedEvent
+           {
+               CreditRequestId = createdCreditRequest.CreditRequestId
+           }, cancellationToken
+        );
 
         logger.LogInformation("Solicitação de crédito {CreditRequestId} criada para o cliente {CustomerId}.", createdCreditRequest.CreditRequestId, createdCreditRequest.CustomerId);
 
