@@ -13,12 +13,15 @@ public class CreditRequestServiceTests
     private readonly Mock<ICreditRequestRepository> _repository = new();
     private readonly Mock<ILogger<CreditRequestService>> _logger = new();
     private readonly CreditRequestService _service;
+    private readonly Mock<IKafkaProducer> _kafkaProducer = new();
 
     public CreditRequestServiceTests()
     {
         _service = new CreditRequestService(
             _repository.Object,
-            _logger.Object);
+            _logger.Object,        
+            _kafkaProducer.Object
+        );
     }
 
     [Fact]
